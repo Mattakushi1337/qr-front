@@ -1,0 +1,35 @@
+.logbook {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.logbook th,
+.logbook td {
+    position: relative;
+    border: 2px solid #836f6f;
+    padding: 5px;
+    word-wrap: break-word;
+    color: #26240a;
+    background-color: #a3d5ff;
+    font-size: 12px;
+}
+
+.logbook tr:nth-child(odd) td {
+    background-color: #e0fbfc;
+}
+
+.logbook tr:hover {
+    color: black !important;
+    background-color: #ffefd5 !important;
+}
+
+.logbook th {
+    position: sticky !important;
+    top: 0;
+    z-index: 2;
+    border: 2px solid #836f6f !important;
+    background-color: #205482;
+    color: white;
+    font-size: 14px;
+    text-align: center !important;
+}
