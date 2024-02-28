@@ -8,7 +8,7 @@ const DataTable = () => {
   const [data, setData] = useState([]);
 
   const fetchData = () => {
-    axios.get('http://188.225.18.177:3001/data')
+    axios.get('https://back.qrcds.site/data')
       .then(response => {
         setData(response.data);
       })

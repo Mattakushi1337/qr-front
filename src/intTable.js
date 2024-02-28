@@ -6,7 +6,7 @@ const IntTable = () => {
     const [data, setData] = useState([]);
 
     const fetchData = () => {
-        axios.get('http://188.225.18.177:3001/intdata')
+        axios.get('https://back.qrcds.site/intdata')
             .then(response => {
                 setData(response.data);
             })
@@ -29,9 +29,9 @@ const IntTable = () => {
     const updateCheck = async (id, currentCheck) => {
         try {
             if (currentCheck === 1) {
-                await axios.patch(`http://188.225.18.177:3001/intData/${id}/update-checkno`);
+                await axios.patch(`https://back.qrcds.site/intData/${id}/update-checkno`);
             } else {
-                await axios.patch(`http://188.225.18.177:3001/intData/${id}/update-check`);
+                await axios.patch(`https://back.qrcds.site/intData/${id}/update-check`);
             }
             fetchData();
         } catch (error) {
