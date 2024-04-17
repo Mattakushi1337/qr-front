@@ -44,6 +44,7 @@ const IntTable = () => {
                 <tr>
                     <th>№</th>
                     <th>Название</th>
+                    <th>Категория</th>
                     <th>Инвентарный номер</th>
                     <th>Местоположение</th>
                     <th>Модель</th>
@@ -58,6 +59,7 @@ const IntTable = () => {
                     <tr key={index}>
                         <td>{item.id}</td>
                         <td>{item.name}</td>
+                        <td>{item.category}</td>
                         <td>{item.intNumber}</td>
                         <td>{item.place}</td>
                         <td>{item.model}</td>
