@@ -36,6 +36,9 @@ const UsersTable = () => {
           <tr>
             <th>№</th>
             <th>ФИО</th>
+            <th>ИТ</th>
+            <th>АСУТП</th>
+            <th>АХО</th>
             <th>IMEI</th>
           </tr>
         </thead>
@@ -44,6 +47,9 @@ const UsersTable = () => {
             <tr key={index}>
               <td>{item.id}</td>
               <td>{item.fio}</td>
+              <td>{item.it}</td>
+              <td>{item.asutp}</td>
+              <td>{item.aho}</td>
               <td>{item.imei}</td>
             </tr>
           ))}
