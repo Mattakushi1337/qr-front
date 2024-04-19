@@ -7,7 +7,7 @@ const UsersTable = () => {
   const [data, setData] = useState([]);
 
   const fetchData = () => {
-    axios.get('https://back.qrcds.site/userstable')
+    axios.get('https://back.qrcds.site/users')
       .then(response => {
         setData(response.data);
       })
@@ -47,9 +47,9 @@ const UsersTable = () => {
             <tr key={index}>
               <td>{item.id}</td>
               <td>{item.fio}</td>
-              <td>{item.it}</td>
-              <td>{item.asutp}</td>
-              <td>{item.aho}</td>
+              <td>{item.it === 1 ? '✔' : '❌'}</td>
+              <td>{item.asutp === 1 ? '✔' : '❌'}</td>
+              <td>{item.aho === 1 ? '✔' : '❌'}</td>
               <td>{item.imei}</td>
             </tr>
           ))}
