@@ -10,10 +10,11 @@ const animations = [
     { to: { left: '47%', top: '20%' }, from: { left: '40%', top: '49%' } },
     { to: { left: '80%', top: '15%' }, from: { left: '50%', top: '15%' } },
 ];
+
 const socket = io('wss://back.qrcds.site');
 
 const Presentation = () => {
-    const [currentAnimation, setCurrentAnimation] = useState(0);
+    const [currentAnimation, setCurrentAnimation] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalContent, setModalContent] = useState('');
     const [animationData, setAnimationData] = useState({
@@ -31,13 +32,6 @@ const Presentation = () => {
         setModalVisible(false);
         setModalContent('');
     };
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentAnimation((prevAnimation) => (prevAnimation + 1) % animations.length);
-        }, 4000);
-        return () => clearInterval(interval);
-    }, []);
 
     useEffect(() => {
         socket.on('animation_1', (data) => {
@@ -60,13 +54,44 @@ const Presentation = () => {
             setAnimationData((prevData) => ({ ...prevData, animation_4: JSON.stringify(data, null, 2) }));
         });
 
+        socket.on('start_1', () => {
+            startAnimation(0);
+        });
+
+        socket.on('start_2', () => {
+            startAnimation(1);
+        });
+
+        socket.on('start_3', () => {
+            startAnimation(2);
+        });
+
+        socket.on('start_4', () => {
+            startAnimation(3);
+        });
+
         return () => {
             socket.off('animation_1');
             socket.off('animation_2');
             socket.off('animation_3');
             socket.off('animation_4');
+            socket.off('start_1');
+            socket.off('start_2');
+            socket.off('start_3');
+            socket.off('start_4');
         };
     }, []);
+
+    const startAnimation = (index) => {
+        setCurrentAnimation(index);
+    };
+
+    const envelopeStyle = useSpring({
+        from: currentAnimation !== null ? animations[currentAnimation].from : {},
+        to: currentAnimation !== null ? animations[currentAnimation].to : {},
+        reset: true,
+        config: { duration: 4000 },
+    });
 
     const handleEnvelopePress = () => {
         if (currentAnimation === 0 && animationData.animation_1) {
@@ -80,13 +105,6 @@ const Presentation = () => {
         }
         setModalVisible(true);
     };
-
-    const envelopeStyle = useSpring({
-        from: animations[currentAnimation].from,
-        to: animations[currentAnimation].to,
-        reset: true,
-        config: { duration: 4000 },
-    });
 
     const styles = {
         app: {
@@ -163,7 +181,7 @@ const Presentation = () => {
 
     return (
         <div style={styles.app}>
-            <svg height="100%" width="100%" style={styles.svg}>
+            <svg height="100%" width="100%" style={styles.svg} onClick={handleEnvelopePress}>
                 <line x1="46%" y1="15%" x2="5%" y2="15%" stroke="black" strokeWidth="5" />
                 <line x1="46%" y1="17%" x2="40%" y2="53%" stroke="black" strokeWidth="5" />
                 <line x1="47%" y1="15%" x2="83%" y2="15%" stroke="black" strokeWidth="5" />
