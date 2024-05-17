@@ -1,0 +1,79 @@
+.app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.phone-icon {
+    position: absolute;
+    top: 80px;
+    left: 40px;
+    font-size: 50px;
+}
+
+.newspaper-icon {
+    position: absolute;
+    top: 80px;
+    left: 675px;
+    font-size: 50px;
+}
+
+.text {
+    position: absolute;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 20px;
+}
+
+.cmdb {
+    top: 400px;
+    left: 550px;
+    font-size: 24px;
+}
+
+.itsm {
+    top: 80px;
+    right: 178px;
+    font-size: 24px;
+}
+
+.animatable {
+    cursor: pointer;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    border: 3px solid orange;
+    width: 30%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-text {
+    white-space: pre-wrap;
+}

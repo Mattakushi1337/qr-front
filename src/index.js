@@ -5,6 +5,7 @@ import DataTable from './dataTable';
 import IntTable from './intTable';
 import reportWebVitals from './reportWebVitals';
 import UsersTable from './userTable';
+import Presentation from './presentation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +15,7 @@ root.render(
         <Route path="/dataTable" component={DataTable} />
         <Route path="/intTable" component={IntTable} />
         <Route path="/userstable" component={UsersTable} />
+        <Route path="/presentation" component={Presentation} />
       </Switch>
     </React.StrictMode>
   </Router>,
