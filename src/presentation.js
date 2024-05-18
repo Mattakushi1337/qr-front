@@ -23,6 +23,10 @@ const Presentation = () => {
         animation_3: null,
         animation_4: null,
     });
+    const [lineColor1, setLineColor1] = useState('black');
+    const [lineColor2, setLineColor2] = useState('black');
+    const [lineColor3, setLineColor3] = useState('black');
+
 
     const openModal = () => {
         setModalVisible(true);
@@ -30,28 +34,31 @@ const Presentation = () => {
 
     const closeModal = () => {
         setModalVisible(false);
+        setLineColor1('black');
+        setLineColor2('black');
+        setLineColor3('black');
         setModalContent('');
     };
 
     useEffect(() => {
         socket.on('animation_1', (data) => {
             console.log('Received animation_1 data:', data);
-            setAnimationData((prevData) => ({ ...prevData, animation_1: JSON.stringify(data, null, 2) }));
+            setAnimationData((prevData) => ({ ...prevData, animation_1: data }));
         });
 
         socket.on('animation_2', (data) => {
             console.log('Received animation_2 data:', data);
-            setAnimationData((prevData) => ({ ...prevData, animation_2: JSON.stringify(data, null, 2) }));
+            setAnimationData((prevData) => ({ ...prevData, animation_2: data }));
         });
 
         socket.on('animation_3', (data) => {
             console.log('Received animation_3 data:', data);
-            setAnimationData((prevData) => ({ ...prevData, animation_3: JSON.stringify(data, null, 2) }));
+            setAnimationData((prevData) => ({ ...prevData, animation_3: data }));
         });
 
         socket.on('animation_4', (data) => {
             console.log('Received animation_4 data:', data);
-            setAnimationData((prevData) => ({ ...prevData, animation_4: JSON.stringify(data, null, 2) }));
+            setAnimationData((prevData) => ({ ...prevData, animation_4: data }));
         });
 
         socket.on('start_1', () => {
@@ -89,19 +96,34 @@ const Presentation = () => {
     const envelopeStyle = useSpring({
         from: currentAnimation !== null ? animations[currentAnimation].from : {},
         to: currentAnimation !== null ? animations[currentAnimation].to : {},
-        reset: true,
         config: { duration: 4000 },
     });
 
     const handleEnvelopePress = () => {
-        if (currentAnimation === 0 && animationData.animation_1) {
-            setModalContent(animationData.animation_1);
-        } else if (currentAnimation === 1 && animationData.animation_2) {
-            setModalContent(animationData.animation_2);
-        } else if (currentAnimation === 2 && animationData.animation_3) {
-            setModalContent(animationData.animation_3);
-        } else if (currentAnimation === 3 && animationData.animation_4) {
-            setModalContent(animationData.animation_4);
+        if (currentAnimation === 0) {
+            setLineColor1('red');
+            const { qrCodeId, userId } = animationData.animation_1;
+            setModalContent(
+                `ID QR-кода: ${qrCodeId}<br />ID пользователя: ${userId}`
+            );
+        } else if (currentAnimation === 1) {
+            setLineColor2('red');
+            const { qrCodeId} = animationData.animation_2;
+            setModalContent(
+                `ID QR-кода: ${qrCodeId}`
+            );
+        } else if (currentAnimation === 2) {
+            setLineColor2('red');
+            const { name, category, intNumber, place, model, serialNumber, description, inDate } = animationData.animation_3;
+            setModalContent(
+                `Имя: ${name}<br />Категория: ${category}<br />Инвентарный номер: ${intNumber}<br />Местоположение: ${place}<br />Модель: ${model}<br />Серийный номер: ${serialNumber}<br />Описание: ${description}<br />Дата ввода: ${inDate}`
+            );
+        } else if (currentAnimation === 3) {
+            setLineColor3('red');
+            const {object, theme, executorGroup, place, fromWho, description} = animationData.animation_4;
+            setModalContent(
+                `Имя: ${object}<br />Тема: ${theme}<br />Группа исполнителей: ${executorGroup}<br />Местоположение: ${place}<br />Инициатор: ${fromWho}<br />Описание: ${description}`
+            );
         }
         setModalVisible(true);
     };
@@ -142,7 +164,9 @@ const Presentation = () => {
             color: 'black',
             left: '38%',
             top: '53%',
-            borderRadius: '10px',
+            borderRadius: '15px',
+            borderWidth: '3px',
+            borderStyle: 'solid',
         },
         itsm: {
             position: 'absolute',
@@ -151,6 +175,9 @@ const Presentation = () => {
             color: 'black',
             left: '83%',
             top: '13%',
+            borderRadius: '15px',
+            borderWidth: '3px',
+            borderStyle: 'solid',
         },
         modal: {
             position: 'fixed',
@@ -182,9 +209,9 @@ const Presentation = () => {
     return (
         <div style={styles.app}>
             <svg height="100%" width="100%" style={styles.svg} onClick={handleEnvelopePress}>
-                <line x1="46%" y1="15%" x2="5%" y2="15%" stroke="black" strokeWidth="5" />
-                <line x1="46%" y1="17%" x2="40%" y2="53%" stroke="black" strokeWidth="5" />
-                <line x1="47%" y1="15%" x2="83%" y2="15%" stroke="black" strokeWidth="5" />
+                <line x1="46%" y1="15%" x2="5%" y2="15%" stroke={lineColor1} strokeWidth="5" />
+                <line x1="46%" y1="17%" x2="40%" y2="53%" stroke={lineColor2} strokeWidth="5" />
+                <line x1="47%" y1="15%" x2="83%" y2="15%" stroke={lineColor3} strokeWidth="5" />
             </svg>
             <IoPhonePortrait style={styles.phone} />
             <IoNewspaper style={styles.newspaper} />
@@ -198,7 +225,7 @@ const Presentation = () => {
             {modalVisible && (
                 <div style={styles.modal} onClick={closeModal}>
                     <div style={styles.modalContent}>
-                        <p>{modalContent}</p>
+                        <div dangerouslySetInnerHTML={{ __html: modalContent }} />
                     </div>
                 </div>
             )}
