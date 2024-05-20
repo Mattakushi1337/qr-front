@@ -26,6 +26,10 @@ const Presentation = () => {
     const [lineColor1, setLineColor1] = useState('black');
     const [lineColor2, setLineColor2] = useState('black');
     const [lineColor3, setLineColor3] = useState('black');
+    const [lineColor4, setLineColor4] = useState('black');
+    const [lineColor5, setLineColor5] = useState('black');
+    const [lineColor6, setLineColor6] = useState('black');
+    const [lineColor7, setLineColor7] = useState('black');
 
 
     const openModal = () => {
@@ -37,6 +41,10 @@ const Presentation = () => {
         setLineColor1('black');
         setLineColor2('black');
         setLineColor3('black');
+        setLineColor4('black');
+        setLineColor5('black');
+        setLineColor6('black');
+        setLineColor7('black');
         setModalContent('');
     };
 
@@ -102,24 +110,28 @@ const Presentation = () => {
     const handleEnvelopePress = () => {
         if (currentAnimation === 0) {
             setLineColor1('red');
+            setLineColor6('red');
             const { qrCodeId, userId } = animationData.animation_1;
             setModalContent(
                 `ID QR-кода: ${qrCodeId}<br />ID пользователя: ${userId}`
             );
         } else if (currentAnimation === 1) {
             setLineColor2('red');
+            setLineColor4('red');
             const { qrCodeId } = animationData.animation_2;
             setModalContent(
                 `ID QR-кода: ${qrCodeId}`
             );
         } else if (currentAnimation === 2) {
             setLineColor2('red');
+            setLineColor5('red');
             const { name, category, intNumber, place, model, serialNumber, description, inDate } = animationData.animation_3;
             setModalContent(
                 `Имя: ${name}<br />Категория: ${category}<br />Инвентарный номер: ${intNumber}<br />Местоположение: ${place}<br />Модель: ${model}<br />Серийный номер: ${serialNumber}<br />Описание: ${description}<br />Дата ввода: ${inDate}`
             );
         } else if (currentAnimation === 3) {
             setLineColor3('red');
+            setLineColor7('red');
             const { object, theme, executorGroup, place, fromWho, description } = animationData.animation_4;
             setModalContent(
                 `Имя: ${object}<br />Тема: ${theme}<br />Группа исполнителей: ${executorGroup}<br />Местоположение: ${place}<br />Инициатор: ${fromWho}<br />Описание: ${description}`
@@ -215,18 +227,21 @@ const Presentation = () => {
             <svg height="100%" width="100%" style={styles.svg} onClick={handleEnvelopePress}>
                 <defs>
                     <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth">
-                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor1} />
+                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor6} />
                     </marker>
                     <marker id="arrow1" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth" orient="auto">
-                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor2} />
+                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor4} />
                     </marker>
                     <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" markerUnits="strokeWidth" orient="auto-start-reverse">
-                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor2} />
+                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor5} />
+                    </marker>
+                    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor7} />
                     </marker>
                 </defs>
                 <line x1="44.8%" y1="15%" x2="5%" y2="15%" stroke={lineColor1} strokeWidth="5" markerStart="url(#arrow)" />
                 <line x1="46%" y1="18.1%" x2="40.5%" y2="52%" stroke={lineColor2} strokeWidth="5" markerEnd='url(#arrow1)' markerStart="url(#arrow2)" />
-                <line x1="48%" y1="15%" x2="82.5%" y2="15%" stroke={lineColor3} strokeWidth="5" markerEnd='url(#arrow)' />
+                <line x1="48%" y1="15%" x2="82.5%" y2="15%" stroke={lineColor3} strokeWidth="5" markerEnd='url(#arrow3)' />
             </svg>
             <IoPhonePortrait style={styles.phone} />
             <IoNewspaper style={styles.newspaper} />
