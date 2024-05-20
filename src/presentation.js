@@ -84,6 +84,10 @@ const Presentation = () => {
         socket.on('start_4', () => {
             startAnimation(3);
         });
+        
+        socket.on('end', () => {
+            closeModal();
+        });
 
         return () => {
             socket.off('animation_1');
@@ -94,11 +98,13 @@ const Presentation = () => {
             socket.off('start_2');
             socket.off('start_3');
             socket.off('start_4');
+            socket.off('end');
         };
     }, []);
 
     const startAnimation = (index) => {
         setCurrentAnimation(index);
+        handleEnvelopePress();
     };
 
     const envelopeStyle = useSpring({
@@ -139,128 +145,134 @@ const Presentation = () => {
         }
         setModalVisible(true);
     };
+    useEffect(() => {
+        if (currentAnimation !== null) {
+        handleEnvelopePress();
+    }
+}, [currentAnimation]);
 
-    const styles = {
-        app: {
-            position: 'relative',
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: '#f0f0f0',
-            overflow: 'hidden',
-        },
-        svg: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-        },
-        phone: {
-            position: 'absolute',
-            width: '50px',
-            height: '50px',
-            color: 'black',
-            left: '2%',
-            top: '12%',
-        },
-        newspaper: {
-            position: 'absolute',
-            width: '50px',
-            height: '50px',
-            color: 'black',
-            left: '45%',
-            top: '12%',
-        },
-        cmdb: {
-            position: 'absolute',
-            fontSize: '24px',
-            fontWeight: 'bold',
-            color: 'black',
-            left: '38%',
-            top: '53%',
-            borderRadius: '15px',
-            borderWidth: '3px',
-            borderStyle: 'solid',
-        },
-        itsm: {
-            position: 'absolute',
-            fontSize: '24px',
-            fontWeight: 'bold',
-            color: 'black',
-            left: '83%',
-            top: '13%',
-            borderRadius: '15px',
-            borderWidth: '3px',
-            borderStyle: 'solid',
-        },
-        modal: {
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000,
-        },
-        modalContent: {
-            backgroundColor: 'white',
-            padding: '20px',
-            borderRadius: '8px',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            borderWidth: '2px',
-            borderStyle: 'solid',
-            borderColor: 'orange',
-        },
-        envelope: {
-            cursor: 'pointer',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-        },
-    };
+const styles = {
+    app: {
+        position: 'relative',
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#f0f0f0',
+        overflow: 'hidden',
+    },
+    svg: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+    },
+    phone: {
+        position: 'absolute',
+        width: '50px',
+        height: '50px',
+        color: 'black',
+        left: '2%',
+        top: '12%',
+    },
+    newspaper: {
+        position: 'absolute',
+        width: '50px',
+        height: '50px',
+        color: 'black',
+        left: '45%',
+        top: '12%',
+    },
+    cmdb: {
+        position: 'absolute',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: 'black',
+        left: '38%',
+        top: '53%',
+        borderRadius: '15px',
+        borderWidth: '3px',
+        borderStyle: 'solid',
+    },
+    itsm: {
+        position: 'absolute',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: 'black',
+        left: '83%',
+        top: '13%',
+        borderRadius: '15px',
+        borderWidth: '3px',
+        borderStyle: 'solid',
+    },
+    modal: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        borderColor: 'orange',
+        fontSize: '26px',
+    },
+    envelope: {
+        cursor: 'pointer',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+    },
+};
 
-    return (
-        <div style={styles.app}>
+return (
+    <div style={styles.app}>
 
-            <svg height="100%" width="100%" style={styles.svg} onClick={handleEnvelopePress}>
-                <defs>
-                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth">
-                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor6} />
-                    </marker>
-                    <marker id="arrow1" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth" orient="auto">
-                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor4} />
-                    </marker>
-                    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" markerUnits="strokeWidth" orient="auto-start-reverse">
-                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor5} />
-                    </marker>
-                    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth">
-                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor7} />
-                    </marker>
-                </defs>
-                <line x1="44.8%" y1="15%" x2="5%" y2="15%" stroke={lineColor1} strokeWidth="5" markerStart="url(#arrow)" />
-                <line x1="46%" y1="18.1%" x2="40.5%" y2="52%" stroke={lineColor2} strokeWidth="5" markerEnd='url(#arrow1)' markerStart="url(#arrow2)" />
-                <line x1="48%" y1="15%" x2="82.5%" y2="15%" stroke={lineColor3} strokeWidth="5" markerEnd='url(#arrow3)' />
-            </svg>
-            <IoPhonePortrait style={styles.phone} />
-            <IoNewspaper style={styles.newspaper} />
-            <div style={styles.cmdb}>CMDB</div>
-            <div style={styles.itsm}>ITSM</div>
-            <animated.div style={{ ...envelopeStyle, ...styles.envelope }}>
-                <div onClick={handleEnvelopePress}>
-                    <FaEnvelope size={24} color="black" />
+        <svg height="100%" width="100%" style={styles.svg} onClick={handleEnvelopePress}>
+            <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 Z" fill={lineColor6} />
+                </marker>
+                <marker id="arrow1" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth" orient="auto">
+                    <path d="M0,0 L0,6 L9,3 Z" fill={lineColor4} />
+                </marker>
+                <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" markerUnits="strokeWidth" orient="auto-start-reverse">
+                    <path d="M0,0 L0,6 L9,3 Z" fill={lineColor5} />
+                </marker>
+                <marker id="arrow3" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 Z" fill={lineColor7} />
+                </marker>
+            </defs>
+            <line x1="44.8%" y1="15%" x2="5%" y2="15%" stroke={lineColor1} strokeWidth="5" markerStart="url(#arrow)" />
+            <line x1="46%" y1="18.1%" x2="40.5%" y2="52%" stroke={lineColor2} strokeWidth="5" markerEnd='url(#arrow1)' markerStart="url(#arrow2)" />
+            <line x1="48%" y1="15%" x2="82.5%" y2="15%" stroke={lineColor3} strokeWidth="5" markerEnd='url(#arrow3)' />
+        </svg>
+        <IoPhonePortrait style={styles.phone} />
+        <IoNewspaper style={styles.newspaper} />
+        <div style={styles.cmdb}>CMDB</div>
+        <div style={styles.itsm}>ITSM</div>
+        <animated.div style={{ ...envelopeStyle, ...styles.envelope }}>
+            <div onClick={handleEnvelopePress}>
+                <FaEnvelope size={24} color="black" />
+            </div>
+        </animated.div>
+        {modalVisible && (
+            <div style={styles.modal} onClick={closeModal}>
+                <div style={styles.modalContent}>
+                    <div dangerouslySetInnerHTML={{ __html: modalContent }} />
                 </div>
-            </animated.div>
-            {modalVisible && (
-                <div style={styles.modal} onClick={closeModal}>
-                    <div style={styles.modalContent}>
-                        <div dangerouslySetInnerHTML={{ __html: modalContent }} />
-                    </div>
-                </div>
-            )}
-        </div>
-    );
+            </div>
+        )}
+    </div>
+);
 };
 
 export default Presentation;
