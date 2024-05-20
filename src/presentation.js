@@ -108,7 +108,7 @@ const Presentation = () => {
             );
         } else if (currentAnimation === 1) {
             setLineColor2('red');
-            const { qrCodeId} = animationData.animation_2;
+            const { qrCodeId } = animationData.animation_2;
             setModalContent(
                 `ID QR-кода: ${qrCodeId}`
             );
@@ -120,7 +120,7 @@ const Presentation = () => {
             );
         } else if (currentAnimation === 3) {
             setLineColor3('red');
-            const {object, theme, executorGroup, place, fromWho, description} = animationData.animation_4;
+            const { object, theme, executorGroup, place, fromWho, description } = animationData.animation_4;
             setModalContent(
                 `Имя: ${object}<br />Тема: ${theme}<br />Группа исполнителей: ${executorGroup}<br />Местоположение: ${place}<br />Инициатор: ${fromWho}<br />Описание: ${description}`
             );
@@ -196,6 +196,9 @@ const Presentation = () => {
             padding: '20px',
             borderRadius: '8px',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            borderWidth: '2px',
+            borderStyle: 'solid',
+            borderColor: 'orange',
         },
         envelope: {
             cursor: 'pointer',
@@ -208,10 +211,22 @@ const Presentation = () => {
 
     return (
         <div style={styles.app}>
+
             <svg height="100%" width="100%" style={styles.svg} onClick={handleEnvelopePress}>
-                <line x1="46%" y1="15%" x2="5%" y2="15%" stroke={lineColor1} strokeWidth="5" />
-                <line x1="46%" y1="17%" x2="40%" y2="53%" stroke={lineColor2} strokeWidth="5" />
-                <line x1="47%" y1="15%" x2="83%" y2="15%" stroke={lineColor3} strokeWidth="5" />
+                <defs>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor1} />
+                    </marker>
+                    <marker id="arrow1" markerWidth="10" markerHeight="10" refX="7" refY="3" markerUnits="strokeWidth" orient="auto">
+                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor2} />
+                    </marker>
+                    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" markerUnits="strokeWidth" orient="auto-start-reverse">
+                        <path d="M0,0 L0,6 L9,3 Z" fill={lineColor2} />
+                    </marker>
+                </defs>
+                <line x1="44.8%" y1="15%" x2="5%" y2="15%" stroke={lineColor1} strokeWidth="5" markerStart="url(#arrow)" />
+                <line x1="46%" y1="18.1%" x2="40.5%" y2="52%" stroke={lineColor2} strokeWidth="5" markerEnd='url(#arrow1)' markerStart="url(#arrow2)" />
+                <line x1="48%" y1="15%" x2="82.5%" y2="15%" stroke={lineColor3} strokeWidth="5" markerEnd='url(#arrow)' />
             </svg>
             <IoPhonePortrait style={styles.phone} />
             <IoNewspaper style={styles.newspaper} />
